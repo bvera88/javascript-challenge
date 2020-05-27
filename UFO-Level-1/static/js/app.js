@@ -38,18 +38,25 @@ button.on("click", runEnter);
 form.on("submit", runEnter);
 
 function runEnter() {
-
+    //don't refresh the page!
     d3.event.preventDefault();
     var inputfield =d3.select("#datetime");
-    var inputValue = inputfield.propery("value");
-
-    console.log(inputValue)
-    d3.select("tbody").text(inputValue)  
+    var inputValue = inputfield.property("value");
+    var filteredData = data.filter(sighting => sighting.datetime===inputValue);
+    //display the new table
+    console.log(filteredData);
+    console.log(inputValue);
+    tbody.html("");    
+    filteredData.forEach(aliensreport => {
+        var row = tbody.append("tr");
+        row.append ("td").text(aliensreport.datetime);
+        row.append ("td").text(aliensreport.city);
+        row.append ("td").text(aliensreport.state);
+        row.append ("td").text(aliensreport.country);
+        row.append ("td").text(aliensreport.shape);
+        row.append ("td").text(aliensreport.durationMinutes);
+        row.append ("td").text(aliensreport.comments);
+    });
 };
 
-// inputfield.on("field",function() {
-//     var newText =d3.event.target.value;
-//     console.log(newText);
-// })
-
-// inputfield.on("change",handleClick);
+var button = d3.select("filter-btn")
